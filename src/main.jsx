@@ -40,14 +40,12 @@ function App() {
             background: "#3b82f6",
             color: "#fff",
             border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
           }}
         >
           Login
         </button>
       </form>
-      {message && <p style={{ marginTop: "1rem" }}>{message}</p>}
+      {message && <p>{message}</p>}
     </div>
   );
 }
