@@ -1,10 +1,12 @@
-
 import React, { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import ReactDOM from "react-dom/client";
 
 // Ganti dengan key & url kamu sendiri
-const supabase = createClient("https://ptguiwznbrebhmtmqqua.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0Z3Vpd3puYnJlYmhtdG1xcXVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzMTc4MDQsImV4cCI6MjA2NTg5MzgwNH0.zst-RX75xCUDGPBXujwpgFIhHAPyrZ4ig-678SSb4es");
+const supabase = createClient(
+  "https://ptguiwznbrebhmtmqqua.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0Z3Vpd3puYnJlYmhtdG1xcXVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzMTc4MDQsImV4cCI6MjA2NTg5MzgwNH0.zst-RX75xCUDGPBXujwpgFIhHAPyrZ4ig-678SSb4es",
+);
 
 function App() {
   const [email, setEmail] = useState("");
@@ -51,3 +53,8 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+import Dashboard from "./Dashboard";
+
+function App() {
+  return <Dashboard />;
+}
