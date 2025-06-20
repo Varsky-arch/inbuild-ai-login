@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import ReactDOM from "react-dom/client";
+import Dashboard from "./Dashboard";
 
-// Ganti dengan key & url kamu sendiri
+// Supabase setup
 const supabase = createClient(
   "https://ptguiwznbrebhmtmqqua.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0Z3Vpd3puYnJlYmhtdG1xcXVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzMTc4MDQsImV4cCI6MjA2NTg5MzgwNH0.zst-RX75xCUDGPBXujwpgFIhHAPyrZ4ig-678SSb4es",
@@ -11,6 +12,19 @@ const supabase = createClient(
 function App() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Cek session Supabase saat halaman pertama kali dimuat
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) setLoggedIn(true);
+    });
+
+    // Listener login
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) setLoggedIn(true);
+    });
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,9 +32,13 @@ function App() {
     if (error) {
       setMessage("Gagal login: " + error.message);
     } else {
-      setMessage("Link login telah dikirim ke email kamu.");
+      setMessage("Link login dikirim ke email kamu.");
     }
   };
+
+  if (loggedIn) {
+    return <Dashboard />;
+  }
 
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial" }}>
@@ -44,7 +62,7 @@ function App() {
             border: "none",
           }}
         >
-          Login
+          Kirim Magic Link
         </button>
       </form>
       {message && <p>{message}</p>}
@@ -53,8 +71,3 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-import Dashboard from "./Dashboard";
-
-function App() {
-  return <Dashboard />;
-}
