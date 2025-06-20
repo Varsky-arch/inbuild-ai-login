@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import ReactDOM from "react-dom/client";
-import Dashboard from "./Dashboard";
+import Dashboard from "./Dashboard.jsx";
 
 // Supabase setup
 const supabase = createClient(
