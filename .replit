@@ -22,8 +22,8 @@ author = 44018336
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
+task = "workflow.run"
+args = "Dev Server"
 
 [[ports]]
 localPort = 5000
