@@ -1,45 +1,36 @@
+// 📁 src/main.jsx
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { supabase } from "./supabaseClient";
-import Dashboard from "./Dashboard";
+import Dashboard from "./Dashboard"; // ganti sesuai lokasi file dashboard
 
 function App() {
   const [username, setUsername] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!username.trim()) return;
-
-    // Cek apakah user sudah ada
-    const { data: existingUser, error: findError } = await supabase
-      .from("users")
+    const { data, error } = await supabase
+      .from("users") // pastikan ini huruf kecil semua
       .select("*")
       .eq("username", username)
       .single();
 
-    if (existingUser) {
-      setLoggedIn(true);
-      setMessage("");
-    } else {
-      // Jika belum ada, langsung buat user baru
-      const { data: newUser, error: insertError } = await supabase
-        .from("users")
-        .insert([{ username }])
-        .single();
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
 
-      if (insertError) {
-        setMessage("Gagal mendaftarkan pengguna");
-        console.error(insertError);
-      } else {
-        setLoggedIn(true);
-        setMessage("");
-      }
+    if (error || !data) {
+      setMessage("❌ Username tidak ditemukan.");
+    } else {
+      setMessage("✅ Login berhasil.");
+      setLoggedIn(true);
     }
   };
 
-  if (loggedIn) return <Dashboard username={username} />;
+  if (loggedIn) {
+    return <Dashboard />;
+  }
 
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial" }}>
@@ -63,10 +54,10 @@ function App() {
             border: "none",
           }}
         >
-          Masuk / Daftar
+          Login
         </button>
       </form>
-      {message && <p style={{ color: "red" }}>{message}</p>}
+      {message && <p>{message}</p>}
     </div>
   );
 }
